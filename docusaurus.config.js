@@ -43,6 +43,7 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
+          docItemComponent: "@theme/ApiItem",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
@@ -69,7 +70,27 @@ const config = {
       }),
     ],
   ],
-
+  plugins: [
+    [
+      'docusaurus-plugin-openapi-docs',
+      {
+        id: 'openapi', // A plugin egyedi azonosítója
+        docsPluginId: 'classic',
+        config: {
+          devices: {  // Egyedi azonosító az API doksinak
+            specPath: 'OpenApi/csernak_melinda_api_referencia.yaml', // Az OpenAPI fájl elérési útja
+            outputDir: 'docs/devices', // A generált Markdown fájlok helye
+            sidebarOptions: {
+              groupPathsBy: 'tag',  // Csoportosítás tagek alapján az oldalsávban
+          // További opciók a plugin dokumentációja szerint
+            },
+            // Opcionális: downloadButton: true,
+          },
+        }
+      }
+    ]
+  ],
+  themes: ['docusaurus-theme-openapi-docs'],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -94,6 +115,12 @@ const config = {
             position: 'left',
             label: 'Guides',
           },
+           {
+        type: 'docSidebar', // Ha külön oldalsávot használsz az API-hoz
+        sidebarId: 'myApiSidebar', // Az API oldalsávjának ID-ja a sidebars.js-ből
+        label: 'Devices API',
+        position: 'left',
+      },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
             href: 'https://github.com/facebook/docusaurus',

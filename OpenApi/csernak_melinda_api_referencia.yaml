@@ -1,0 +1,121 @@
+openapi: 3.0.0
+info:
+  title: Eszköz (Device) nyilvántartó rendszer
+  description: 
+    Ez egy eszkőz nyilvántartó rendszer.
+  contact:
+    email: csernak.melinda@gmail.com
+  version: 1.0.1
+paths:
+  /eszkozok:
+    post:
+        summary: Új eszköz létrehozása a rendszerben.
+        description: Új eszköz létrehozása a rendszerben. Tartalmaznia kell egy "Eszköz" objektumot a kötelező mezőkkel (nev, gyarto, tipus, raktaron) és az opcionális ar mezővel. Az id és utolsoFrissites mezőket a kérésben nem kell megadni.
+        requestBody:
+          description: Új eszköz létrehozása a rendszerben.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+          required: true
+        responses:
+          '201':
+            description: Created, sikeres létrehozás.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Device'
+          '400':
+            description: Bad Request. hibás kérés.
+          default:
+            description: Unexpected error, nem várt hiba.
+    get:
+        summary: Az összes eszköz listázása, szűrési lehetőséggel.
+        description: Az összes eszközt listázza, lehetőség van szűrni típus, gyártó vagy raktáron lévő szerint.
+        parameters:
+          - name: tipus
+            in: query
+            description: Szűrés eszköz típusára.
+            required: false
+            schema:
+              type: string
+          - name: gyarto
+            in: query
+            description: Szűrés gyártóra.
+            required: false
+            schema:
+              type: string
+          - name: raktaron
+            in: query
+            description: Csak a raktáron lévő (true) vagy csak a nem raktáron lévő (false) eszközök listázása.
+            required: false
+            schema:
+              type: boolean
+        responses:
+          '200':
+            description: OK sikeres lekérdezés
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Device'
+          default:
+            description: Unexpected error, nem várt hiba.
+  /eszkozok/{eszkozid}:
+    get:
+      summary: Egy konkrét eszköz lekérdezése azonosító alapján.
+      description: Konkrét eszközt ad vissza az ID alapján.
+      parameters:
+        - name: eszkozid
+          in: path
+          description: Adja meg az eszköz azonosítóját
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK sikeres lekérdezés
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '404':
+          description: Not found, nem található.
+        default:
+          description: Unexpected error, nem várt hiba.
+components:
+  schemas:
+    Device:
+      required:
+        - "nev"
+        - "gyarto"
+        - "tipus"
+        - "raktaron"
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        nev:
+          type: string
+          example: "Szuper Okos Kütyü"
+        gyarto:
+          type: string
+          example: "Tech Kft."
+        tipus:
+          type: string
+          example: "Okosotthon"
+        ar:
+          type: number
+          format: double
+          example: 105.99
+        raktaron:
+          type: boolean
+          example: true
+        utolsoFrissites:
+          type: string
+          format: date-time
+          readOnly: true
