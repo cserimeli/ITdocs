@@ -10,6 +10,7 @@ paths:
   /eszkozok:
     post:
         summary: Új eszköz létrehozása a rendszerben.
+        tags: Eszköz létrehozás
         description: Új eszköz létrehozása a rendszerben. Tartalmaznia kell egy "Eszköz" objektumot a kötelező mezőkkel (nev, gyarto, tipus, raktaron) és az opcionális ar mezővel. Az id és utolsoFrissites mezőket a kérésben nem kell megadni.
         requestBody:
           description: Új eszköz létrehozása a rendszerben.
@@ -31,6 +32,7 @@ paths:
             description: Unexpected error, nem várt hiba.
     get:
         summary: Az összes eszköz listázása, szűrési lehetőséggel.
+        tags: Eszköz lekérdezés
         description: Az összes eszközt listázza, lehetőség van szűrni típus, gyártó vagy raktáron lévő szerint.
         parameters:
           - name: tipus
@@ -65,6 +67,7 @@ paths:
   /eszkozok/{eszkozid}:
     get:
       summary: Egy konkrét eszköz lekérdezése azonosító alapján.
+      tags: Eszköz lekérdezés
       description: Konkrét eszközt ad vissza az ID alapján.
       parameters:
         - name: eszkozid
@@ -119,3 +122,8 @@ components:
           type: string
           format: date-time
           readOnly: true
+tag:
+  - name: Eszköz létrehozás
+  - description: Methods to create new device
+  - name: Eszköz lekérdezés
+  - description: Methods to query existing devices
