@@ -142,6 +142,15 @@ const config = {
             ],
           },
           {
+            title: 'Keresd a palacsintát',
+            items: [
+              {
+                label: 'Palacsinta',
+                to: '/docs/guides/advanced-topics/palacsinta',
+              },
+            ],
+          },
+          {
             title: 'Community',
             items: [
               {
